@@ -91,15 +91,27 @@ public class Player {
 	
 	public char fireUpon(int x, int y) {
 		Coordinate c = getCoordinate(x, y);
+		boolean sunk = true;
 		char shipType = c.getShipType();
 		if(shipType != '~') {
+			System.out.println("It's a hit!");
+			c.setHitStatus('h');
+			for(Coordinate d:board) {
+				if(d.getShipType()==c.getShipType()&&d.getHitStatus()=='m') {
+					sunk = false;
+					break;
+				}
+			}
+			if(sunk) {
+				System.out.println("You sunk my " + charToWord(c.getShipType()) + "!");
+			}
 			c.setShipType('~');
-			c.setHitStatus('H');
 			return shipType;
 		}
 		else {
-			c.setHitStatus('M');
-			return 'M';
+			System.out.println("it's a miss!");
+			c.setHitStatus('m');
+			return 'm';
 		}
 	}
 	
@@ -138,14 +150,71 @@ public class Player {
 	}
 	
 	public boolean hasLost() {
-		return false;
+		for(Coordinate c:board) {
+			if(!(c.getHitStatus()=='m')&&!(c.getShipType()=='~')) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public void setupShips() {
+		int x, y, orientationNum, isCorrect;
+		char orientation, shipType;
+		boolean valid;
+		String[] orientations = {"Vertical", "Horizontal"};
+		String[] yesNo = {"Yes", "No"};
+		char[] shipTypes = {'a', 'b', 's', 'd', 'p'};
+		int[] lengths = {5, 4, 3, 3, 2};
+		SelectMenu orientationMenu = new SelectMenu("Finally, choose the ship's orientation:", orientations);
+		SelectMenu isCorrectMenu = new SelectMenu("This is your board. Is this correct?", yesNo);
+		ArrayList<Coordinate> coords;
 		
+		initBoard();
+		System.out.println("Now setup your ships. Note that the board is a " + BOARD_SIZE + " by " + BOARD_SIZE + 
+				" grid, with both the x and y axes starting at 0 and ending at " + (BOARD_SIZE-1));
+		for(int i=0; i<5; i++) {
+			shipType = shipTypes[i];
+			System.out.println("Place your " +charToWord(shipType) + ". Note that its length is " + lengths[i] + ".");
+			System.out.println("Enter its x:");
+			x = scn.nextInt();
+			System.out.println("Enter its y:");
+			y = scn.nextInt();
+			orientationNum = orientationMenu.display();
+			if(orientationNum==0) orientation='v';
+			else orientation='h';
+			valid = validShipPlacement(x, y, shipType, orientation);
+			if(!valid) {
+				System.out.println("That ship placement is not valid! As a reminder, ships can't be overlapping. Here's what your board looks like:");
+				printShipBoard();
+				i--;
+			}
+			else {
+				coords = getShipCoords(x, y, shipType, orientation);
+				for(Coordinate c:coords) {
+					c.setShipType(shipTypes[i]);
+					c.setHitStatus('~');
+				}
+			}
+		}
+		printShipBoard();
+		isCorrect = isCorrectMenu.display();
+		if(isCorrect==1) {
+			System.out.println("Understood. Ship setup will now start over.");
+			setupShips();
+		}
 	}
 	
-	public void fire() {
+	public void fire(Player e) {
+		int x, y;
 		
+		System.out.println("It is now the next player's turn to fire!");
+		System.out.println("Here is a map of your previous shots on the enemy's board: h represents a hit, and m represents a miss.");
+		e.printHitBoard();
+		System.out.println("Enter the x coordinate of where you want to hit:");
+		x = scn.nextInt();
+		System.out.println("Enter the y coordinate of where you want to hit:");
+		y = scn.nextInt();
+		e.fireUpon(x, y);
 	}
 }
