@@ -13,16 +13,16 @@ public class Player {
 	}
 	
 	public static String charToWord(char c) {
-		String x = ""+c;
+		String x = String.valueOf(c);
 		x = x.toLowerCase();
-		if(x=="a") return "Aircraft Carrier";
-		else if(x=="b") return "Battleship";
-		else if(x=="s") return "Submarine";
-		else if(x=="d") return "Destroyer";
-		else if(x=="p") return "Patrol Boat";
-		else if(x=="h") return "Hit";
-		else if(x=="m") return "Miss";
-		else return "Empty";
+		if(x.equals("a")) return "Aircraft Carrier";
+		else if(x.equals("b")) return "Battleship";
+		else if(x.equals("s")) return "Submarine";
+		else if(x.equals("d")) return "Destroyer";
+		else if(x.equals("p")) return "Patrol Boat";
+		else if(x.equals("h")) return "Hit";
+		else if(x.equals("m")) return "Miss";
+		else return x;
 	}
 	
 	public void initBoard() {
@@ -48,20 +48,24 @@ public class Player {
 	}
 	
 	public void printShipBoard() {
-		String b = "";
-		b += "-";
+		String b = "   ";
+		for(int i=0; i<BOARD_SIZE; i++) {
+			b += " " + (i/10) + (i-(10*(i/10))) + " ";
+		}
+		b += "\n  -";
 		for(int i=0; i<BOARD_SIZE; i++) {
 			b += "----";
 		}
 		b += "\n";
 		for(int i=0; i<BOARD_SIZE; i++) {
-			b += "|";
+			b += i;
+			b += " |";
 			for(int j=0; j < BOARD_SIZE; j++) {
-				b += (" " + getCoordinate(i, j).getShipType() + " |");
+				b += (" " + getCoordinate(j, i).getShipType() + " |");
 			}
 			b += "\n";
 		}
-		b += "-";
+		b += "  -";
 		for(int i=0; i<BOARD_SIZE; i++) {
 			b += "----";
 		}
@@ -69,20 +73,24 @@ public class Player {
 	}
 	
 	public void printHitBoard() {
-		String b = "";
-		b += "-";
+		String b = "   ";
+		for(int i=0; i<BOARD_SIZE; i++) {
+			b += " " + (i/10) + (i-(10*(i/10))) + " ";
+		}
+		b += "\n  -";
 		for(int i=0; i<BOARD_SIZE; i++) {
 			b += "----";
 		}
 		b += "\n";
 		for(int i=0; i<BOARD_SIZE; i++) {
-			b += "|";
+			b += i;
+			b += " |";
 			for(int j=0; j < BOARD_SIZE; j++) {
-				b += (" " + getCoordinate(i, j).getHitStatus() + " |");
+				b += (" " + getCoordinate(j, i).getHitStatus() + " |");
 			}
 			b += "\n";
 		}
-		b += "-";
+		b += "  -";
 		for(int i=0; i<BOARD_SIZE; i++) {
 			b += "----";
 		}
@@ -173,6 +181,8 @@ public class Player {
 		initBoard();
 		System.out.println("Now setup your ships. Note that the board is a " + BOARD_SIZE + " by " + BOARD_SIZE + 
 				" grid, with both the x and y axes starting at 0 and ending at " + (BOARD_SIZE-1));
+		System.out.println("Here is your empty board.");
+		printShipBoard();
 		for(int i=0; i<5; i++) {
 			shipType = shipTypes[i];
 			System.out.println("Place your " +charToWord(shipType) + ". Note that its length is " + lengths[i] + ".");
@@ -195,6 +205,7 @@ public class Player {
 					c.setShipType(shipTypes[i]);
 					c.setHitStatus('~');
 				}
+				printShipBoard();
 			}
 		}
 		printShipBoard();

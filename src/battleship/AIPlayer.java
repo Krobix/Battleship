@@ -37,9 +37,15 @@ public class AIPlayer extends Player{
 				c.setHitStatus('~');
 			}
 		}
+		System.out.println("The AI has finished setting up its ships.");
 	}
 	
-	public void fire() {
-		
+	public void fire(Player e) {
+		int choice, len=guesses.size();
+		Coordinate c;
+		choice = (int) Math.floor(Math.random()*len);
+		c = guesses.get(choice);
+		e.fireUpon(c.getX(), c.getY());
+		guesses.remove(choice);
 	}
 }

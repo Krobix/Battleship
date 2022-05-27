@@ -20,7 +20,6 @@ public class SelectMenu {
 		}
 		System.out.println("Enter the number of your choice.");
 		c = scn.nextInt();
-		scn.close();
 		return c;
 	}
 }
