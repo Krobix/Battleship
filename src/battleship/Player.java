@@ -105,7 +105,7 @@ public class Player {
 			System.out.println("It's a hit!");
 			c.setHitStatus('h');
 			for(Coordinate d:board) {
-				if(d.getShipType()==c.getShipType()&&d.getHitStatus()=='m') {
+				if(d.getShipType()==c.getShipType()&&(d.getHitStatus()=='m'||d.getHitStatus()=='~')) {
 					sunk = false;
 					break;
 				}
