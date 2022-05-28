@@ -45,6 +45,7 @@ public class AIPlayer extends Player{
 		Coordinate c;
 		choice = (int) Math.floor(Math.random()*len);
 		c = guesses.get(choice);
+		System.out.println("The AI has chosen to fire at (" + c.getX() + ", " + c.getY() + ").");
 		e.fireUpon(c.getX(), c.getY());
 		guesses.remove(choice);
 	}

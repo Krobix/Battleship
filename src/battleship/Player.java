@@ -220,7 +220,9 @@ public class Player {
 		int x, y;
 		
 		System.out.println("It is now the next player's turn to fire!");
-		System.out.println("Here is a map of your previous shots on the enemy's board: h represents a hit, and m represents a miss.");
+		System.out.println("Here's your board:");
+		printShipBoard();
+		System.out.println("And here is a map of your previous shots on the enemy's board: h represents a hit, and m represents a miss.");
 		e.printHitBoard();
 		System.out.println("Enter the x coordinate of where you want to hit:");
 		x = scn.nextInt();

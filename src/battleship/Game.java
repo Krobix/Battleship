@@ -31,6 +31,7 @@ public class Game {
 			System.out.println("It is now player 1's turn!\n\n");
 			p1.fire(p2);
 			if(p2.hasLost()) break;
+			System.out.println("It is now player 2's turn!\n\n");
 			p2.fire(p1);
 		}
 		if(p1.hasLost()) {
