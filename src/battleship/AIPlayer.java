@@ -68,8 +68,8 @@ public class AIPlayer extends Player{
 			for(Coordinate tmp2:adjascent) {
 				x2 = tmp2.getX();
 				y2 = tmp2.getY();
-				if(tmp.getHitStatus()=='m') score-=5;
-				else if(tmp.getHitStatus()=='h') {
+				if(tmp2.getHitStatus()=='m') score-=5;
+				else if(tmp2.getHitStatus()=='h') {
 					score += 10;
 					adjascent2.add(e.getCoordinate(x2-1, y2));
 					adjascent2.add(e.getCoordinate(x2, y2-1));
