@@ -79,6 +79,7 @@ public class AIPlayer extends Player{
 						if(tmp3.getHitStatus()=='h') borderingCount++;
 					}
 					if(borderingCount>=2) score-=20;
+					borderingCount = 0;
 				}
 			}
 			choiceScores[i]=score;
@@ -87,8 +88,8 @@ public class AIPlayer extends Player{
 		for(int j=0; j<choiceScores.length; j++) {
 			if(choiceScores[j]>choiceScores[choice]) choice=j;
 		}
-		if(choice==0) c=guesses.get((int)Math.floor(Math.random()*guesses.size()));
-		else c = guesses.get(choice);
+		if(choiceScores[choice]<=0) c=guesses.get((int)Math.floor(Math.random()*guesses.size()));
+		else c = e.board.get(choice);
 		System.out.println("The AI has chosen to fire at (" + c.getX() + ", " + c.getY() + ").");
 		e.fireUpon(c.getX(), c.getY());
 		guesses.remove(c);
